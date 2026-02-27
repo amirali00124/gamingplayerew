@@ -1,15 +1,21 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
-import { consoleLog } from './logger.js';
 
 dotenv.config();
+
+console.log("=== ENV CHECK START ===");
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_DATABASE:", process.env.DB_DATABASE);
+console.log("All ENV keys:", Object.keys(process.env));
+console.log("=== ENV CHECK END ===");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT)
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 5
 });
 
 async function executeQuery(query, params) {
